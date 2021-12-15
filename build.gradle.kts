@@ -23,6 +23,8 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
 	}
 }
 
+val exposedVersion: String by project
+
 dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
 	implementation("io.ktor:ktor-server-core:$ktor_version")
@@ -30,8 +32,13 @@ dependencies {
 	implementation("io.ktor:ktor-serialization:$ktor_version")
 	implementation("io.ktor:ktor-server-netty:$ktor_version")
 	implementation("ch.qos.logback:logback-classic:$logback_version")
+	implementation("org.postgresql:postgresql:42.2.2")
 
 	testImplementation("org.hamcrest:hamcrest:2.2")
+
+	implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+	implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
+	implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
 
 	testImplementation("io.ktor:ktor-server-tests:$ktor_version")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
