@@ -14,7 +14,7 @@ fun Application.configureRouting() {
 	routing {
 		val repository: TodoRepository = InMemoryTodoRepositoryImpl()
 		get("/") {
-			call.respondText("Todo Application")
+			call.respondText("TODO APPLICATION")
 		}
 		get("/todos") {
 			call.respond(repository.getAllTodos())
