@@ -4,11 +4,7 @@ import ru.kheynov.entities.Todo
 import ru.kheynov.entities.TodoDraft
 
 class InMemoryTodoRepositoryImpl : TodoRepository {
-	private val todos = mutableListOf(Todo(
-		id = 1,
-		title = "Test todo #1",
-		isDone = false,
-	))
+	private val todos = mutableListOf<Todo>()
 
 	override fun getAllTodos(): List<Todo> {
 		return todos
@@ -22,7 +18,9 @@ class InMemoryTodoRepositoryImpl : TodoRepository {
 		val todo = Todo(
 			id = todos.size + 1,
 			title = draft.title,
-			isDone = draft.isDone)
+			isDone = draft.isDone,
+//			timestamp = draft.timestamp,
+		)
 		todos.add(todo)
 		return todo
 	}

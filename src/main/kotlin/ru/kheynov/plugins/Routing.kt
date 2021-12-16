@@ -5,9 +5,12 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import javafx.geometry.Pos
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.Table
 import ru.kheynov.entities.TodoDraft
 import ru.kheynov.repository.InMemoryTodoRepositoryImpl
+import ru.kheynov.repository.PostgresSQLRepositoryImpl
 import ru.kheynov.repository.TodoRepository
 
 fun Application.configureRouting() {
@@ -17,7 +20,7 @@ fun Application.configureRouting() {
 		Database.connect("jdbc:postgresql://database:5432/todos", driver = "org.postgresql.Driver",
 			user = "admin", password = "qwertypassword")
 
-		val repository: TodoRepository = InMemoryTodoRepositoryImpl()
+		val repository: TodoRepository = PostgresSQLRepositoryImpl()
 		get("/") {
 			call.respondText("TODO APPLICATION")
 		}
@@ -43,9 +46,9 @@ fun Application.configureRouting() {
 
 		post("/todos") {
 			val todoDraft = call.receive<TodoDraft>()
+			println(todoDraft.toString())
 			val todo = repository.addTodo(todoDraft)
 			call.respond(todo)
-
 		}
 		put("/todos/{id}") {
 			val todoDraft = call.receive<TodoDraft>()
