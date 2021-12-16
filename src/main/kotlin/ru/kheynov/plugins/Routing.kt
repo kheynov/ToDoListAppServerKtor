@@ -5,22 +5,15 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import javafx.geometry.Pos
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.Table
 import ru.kheynov.entities.TodoDraft
 import ru.kheynov.repository.InMemoryTodoRepositoryImpl
-import ru.kheynov.repository.PostgresSQLRepositoryImpl
 import ru.kheynov.repository.TodoRepository
 
 fun Application.configureRouting() {
 
 	routing {
 
-		Database.connect("jdbc:postgresql://database:5432/todos", driver = "org.postgresql.Driver",
-			user = "admin", password = "qwertypassword")
-
-		val repository: TodoRepository = PostgresSQLRepositoryImpl()
+		val repository: TodoRepository = InMemoryTodoRepositoryImpl()
 		get("/") {
 			call.respondText("TODO APPLICATION")
 		}

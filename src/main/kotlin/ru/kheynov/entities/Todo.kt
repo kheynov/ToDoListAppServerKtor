@@ -7,5 +7,5 @@ data class Todo(
     val id: Int,
     var title: String,
     var isDone: Boolean,
-//    val timestamp: Int,
+    val timestamp: Int,
 )

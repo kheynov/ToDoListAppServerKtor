@@ -19,7 +19,7 @@ class InMemoryTodoRepositoryImpl : TodoRepository {
 			id = todos.size + 1,
 			title = draft.title,
 			isDone = draft.isDone,
-//			timestamp = draft.timestamp,
+			timestamp = draft.timestamp,
 		)
 		todos.add(todo)
 		return todo

@@ -6,4 +6,5 @@ import kotlinx.serialization.Serializable
 data class TodoDraft(
     val title: String,
     val isDone: Boolean,
+    val timestamp: Int
 )
