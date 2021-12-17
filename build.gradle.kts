@@ -33,7 +33,8 @@ dependencies {
 	implementation("io.ktor:ktor-server-netty:$ktor_version")
 	implementation("ch.qos.logback:logback-classic:$logback_version")
 
-
+	implementation("org.litote.kmongo:kmongo-serialization:4.4.0")
+	implementation("org.litote.kmongo:kmongo-coroutine:4.4.0")
 
 	testImplementation("io.ktor:ktor-server-tests:$ktor_version")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
