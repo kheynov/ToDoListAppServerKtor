@@ -25,19 +25,17 @@ class InMemoryTodoRepositoryImpl : TodoRepository {
 		return todo
 	}
 
-	override fun removeTodo(id: Int): Boolean {
-		return todos.removeIf { it.id == id }
+	override fun removeTodo(id: Int) {
+		todos.removeIf { it.id == id }
 	}
 
 	override fun updateTodo(
 		id: Int,
 		todoDraft: TodoDraft,
-	): Boolean {
-		val todo = todos.firstOrNull { it.id == id } ?: return false
+	) {
+		val todo = todos.firstOrNull { it.id == id }
 
-		todo.title = todoDraft.title
-		todo.isDone = todoDraft.isDone
-		return true
-
+		todo?.title = todoDraft.title
+		todo?.isDone = todoDraft.isDone
 	}
 }

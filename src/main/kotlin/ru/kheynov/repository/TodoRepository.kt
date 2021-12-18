@@ -10,8 +10,8 @@ interface TodoRepository {
 
     fun addTodo(draft: TodoDraft): Todo
 
-    fun removeTodo(id: Int): Boolean
+    fun removeTodo(id: Int)
 
-    fun updateTodo(id: Int, todoDraft: TodoDraft): Boolean
+    fun updateTodo(id: Int, todoDraft: TodoDraft)
 
 }
