@@ -28,14 +28,16 @@ val exposedVersion: String by project
 dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
 	implementation("io.ktor:ktor-server-core:$ktor_version")
-	implementation("io.ktor:ktor-server-sessions:$ktor_version")
-	implementation("io.ktor:ktor-serialization:$ktor_version")
+//	implementation("io.ktor:ktor-server-sessions:$ktor_version")
+//	implementation("io.ktor:ktor-serialization:$ktor_version")
 	implementation("io.ktor:ktor-server-netty:$ktor_version")
 	implementation("ch.qos.logback:logback-classic:$logback_version")
 
-	implementation("org.mongodb:mongodb-driver:3.12.9")
+	implementation("org.litote.kmongo:kmongo:4.4.0")
 
-	testImplementation("io.ktor:ktor-server-tests:$ktor_version")
-	testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+	implementation("io.ktor:ktor-gson:$ktor_version")
+
+//	testImplementation("io.ktor:ktor-server-tests:$ktor_version")
+//	testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 
 }
