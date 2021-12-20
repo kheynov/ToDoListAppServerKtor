@@ -6,12 +6,12 @@ import ru.kheynov.entities.TodoDraft
 interface TodoRepository {
     fun getAllTodos(): List<Todo>
 
-    fun getTodo(id: Int): Todo?
+    fun getTodo(id: String): Todo?
 
     fun addTodo(draft: TodoDraft): Todo
 
-    fun removeTodo(id: Int)
+    fun removeTodo(id: String)
 
-    fun updateTodo(id: Int, todoDraft: TodoDraft)
+    fun updateTodo(id: String, todoDraft: TodoDraft)
 
 }

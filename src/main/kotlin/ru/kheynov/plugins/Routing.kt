@@ -6,7 +6,6 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import ru.kheynov.entities.TodoDraft
-import ru.kheynov.repository.InMemoryTodoRepositoryImpl
 import ru.kheynov.repository.MongoDatabaseRepositoryImpl
 import ru.kheynov.repository.TodoRepository
 
@@ -22,7 +21,7 @@ fun Application.configureRouting() {
 			call.respond(repository.getAllTodos())
 		}
 		get("/todos/{id}") {
-			val id = call.parameters["id"]?.toIntOrNull()
+			val id = call.parameters["id"]
 			if (id == null) {
 				call.respond(HttpStatusCode.BadRequest,
 					"Id must be a number")
@@ -39,14 +38,20 @@ fun Application.configureRouting() {
 		}
 
 		post("/todos") {
-			val todoDraft = call.receive<TodoDraft>()
+//			println("I GOT A POST REQUEST!1!!!")
+			val todoDraft = call.receiveOrNull<TodoDraft>()
 			println(todoDraft.toString())
-			val todo = repository.addTodo(todoDraft)
-			call.respond(todo)
+			if (todoDraft != null) {
+				val todo = repository.addTodo(todoDraft)
+				call.respond(todo)
+			}
+			else{
+				call.respond(HttpStatusCode.BadRequest)
+			}
 		}
 		put("/todos/{id}") {
 			val todoDraft = call.receive<TodoDraft>()
-			val todoId = call.parameters["id"]?.toIntOrNull()
+			val todoId = call.parameters["id"]
 
 			if (todoId == null) {
 				call.respond(HttpStatusCode.BadRequest,
@@ -59,7 +64,7 @@ fun Application.configureRouting() {
 		}
 
 		delete("/todos/{id}") {
-			val todoId = call.parameters["id"]?.toIntOrNull()
+			val todoId = call.parameters["id"]
 
 			if (todoId == null) {
 				call.respond(HttpStatusCode.BadRequest,
