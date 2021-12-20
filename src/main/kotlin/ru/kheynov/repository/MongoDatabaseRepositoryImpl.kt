@@ -1,5 +1,6 @@
 package ru.kheynov.repository
 
+import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
 import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoCollection
@@ -22,7 +23,9 @@ class MongoDatabaseRepositoryImpl : TodoRepository {
 		val codecRegistry: CodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
 			pojoCodecRegistry)
 
-		val clientSettings = MongoClientSettings.builder().codecRegistry(codecRegistry).build()
+		val clientSettings = MongoClientSettings.builder().codecRegistry(codecRegistry)
+			.applyConnectionString(ConnectionString("mongodb://mongodb:27017"))
+			.build()
 
 		val mongoClient = MongoClients.create(clientSettings)
 		database = mongoClient.getDatabase("todos")
