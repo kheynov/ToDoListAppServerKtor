@@ -1,36 +1,26 @@
 package ru.kheynov.repository
 
 import com.mongodb.ConnectionString
-import com.mongodb.MongoClientSettings
-import com.mongodb.client.MongoClients
-import com.mongodb.client.MongoCollection
-import com.mongodb.client.MongoDatabase
 import com.mongodb.client.model.Filters
-import org.bson.codecs.configuration.CodecRegistries.fromProviders
-import org.bson.codecs.configuration.CodecRegistries.fromRegistries
-import org.bson.codecs.configuration.CodecRegistry
-import org.bson.codecs.pojo.PojoCodecProvider
+import org.litote.kmongo.KMongo
 import ru.kheynov.entities.Todo
 import ru.kheynov.entities.TodoDraft
+import java.util.*
 
 class MongoDatabaseRepositoryImpl : TodoRepository {
 
-	private val database: MongoDatabase
-	private val todoCollection: MongoCollection<Todo>
+	private val client = KMongo.createClient(ConnectionString("mongodb://mongodb:27017"))
+	private val database = client.getDatabase("todos")
+	private val todoCollection = database.getCollection("todos",
+		Todo::class.java)
 
 	init {
-		val pojoCodecRegistry: CodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build())
-		val codecRegistry: CodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
-			pojoCodecRegistry)
-
-		val clientSettings = MongoClientSettings.builder().codecRegistry(codecRegistry)
-			.applyConnectionString(ConnectionString("mongodb://mongodb:27017"))
-			.build()
-
-		val mongoClient = MongoClients.create(clientSettings)
-		database = mongoClient.getDatabase("todos")
-		todoCollection = database.getCollection("todos",
-			Todo::class.java)
+		todoCollection.insertOne(Todo(
+			id = UUID.randomUUID().toString(),
+			title = "Test Todo",
+			isDone = true,
+			timestamp = 123,
+		))
 	}
 
 	override fun getAllTodos(): List<Todo> {
@@ -41,14 +31,14 @@ class MongoDatabaseRepositoryImpl : TodoRepository {
 		return todos
 	}
 
-	override fun getTodo(id: Int): Todo? {
+	override fun getTodo(id: String): Todo? {
 		return todoCollection.find(Filters.eq("id",
 			id)).first()
 	}
 
 	override fun addTodo(draft: TodoDraft): Todo {
 		val todo = Todo(
-			id = todoCollection.find().last().id + 1,
+			id = UUID.randomUUID().toString(),
 			title = draft.title,
 			isDone = draft.isDone,
 			timestamp = draft.timestamp,
@@ -57,13 +47,13 @@ class MongoDatabaseRepositoryImpl : TodoRepository {
 		return todo
 	}
 
-	override fun removeTodo(id: Int) {
+	override fun removeTodo(id: String) {
 		todoCollection.findOneAndDelete(Filters.eq("id",
-			id)) != null
+			id))
 	}
 
 	override fun updateTodo(
-		id: Int,
+		id: String,
 		todoDraft: TodoDraft,
 	) {
 		todoCollection.replaceOne(
