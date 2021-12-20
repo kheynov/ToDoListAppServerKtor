@@ -1,10 +1,7 @@
 package ru.kheynov.entities
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class Todo(
-    val id: Int,
+    val id: String,
     var title: String,
     var isDone: Boolean,
     val timestamp: Int,
