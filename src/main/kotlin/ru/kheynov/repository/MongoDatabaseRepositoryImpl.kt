@@ -26,7 +26,7 @@ class MongoDatabaseRepositoryImpl : TodoRepository {
 
 		val mongoClient = MongoClients.create(clientSettings)
 		database = mongoClient.getDatabase("todos")
-		todoCollection = database.getCollection(Todo::class.java.name,
+		todoCollection = database.getCollection("todos",
 			Todo::class.java)
 	}
 

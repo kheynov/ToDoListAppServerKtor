@@ -7,13 +7,14 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import ru.kheynov.entities.TodoDraft
 import ru.kheynov.repository.InMemoryTodoRepositoryImpl
+import ru.kheynov.repository.MongoDatabaseRepositoryImpl
 import ru.kheynov.repository.TodoRepository
 
 fun Application.configureRouting() {
 
 	routing {
 
-		val repository: TodoRepository = InMemoryTodoRepositoryImpl()
+		val repository: TodoRepository = MongoDatabaseRepositoryImpl()
 		get("/") {
 			call.respondText("TODO APPLICATION")
 		}
@@ -52,15 +53,11 @@ fun Application.configureRouting() {
 					"Id must be a number")
 				return@put
 			}
-			val updated = repository.updateTodo(todoId,
+			repository.updateTodo(todoId,
 				todoDraft)
-			if (updated) {
-				call.respond(HttpStatusCode.OK)
-			} else {
-				call.respond(HttpStatusCode.NotFound,
-					"Todo with id $todoId not found")
-			}
+			call.respond(HttpStatusCode.OK)
 		}
+
 		delete("/todos/{id}") {
 			val todoId = call.parameters["id"]?.toIntOrNull()
 
@@ -69,13 +66,8 @@ fun Application.configureRouting() {
 					"Id must be a number")
 				return@delete
 			}
-			val removed = repository.removeTodo(todoId)
-			if (removed) {
-				call.respond(HttpStatusCode.OK)
-			} else {
-				call.respond(HttpStatusCode.NotFound,
-					"Todo with id $todoId not found")
-			}
+			repository.removeTodo(todoId)
+			call.respond(HttpStatusCode.OK)
 		}
 	}
 }
