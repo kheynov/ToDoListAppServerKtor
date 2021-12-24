@@ -5,6 +5,7 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import ru.kheynov.entities.LoginRequest
 import ru.kheynov.entities.TodoDraft
 import ru.kheynov.repository.MongoDatabaseRepositoryImpl
 import ru.kheynov.repository.TodoRepository
@@ -37,8 +38,11 @@ fun Application.configureRouting() {
 			}
 		}
 
+		post("/login") {
+			val loginBody = call.receive<LoginRequest>()
+		}
+
 		post("/todos") {
-//			println("I GOT A POST REQUEST!1!!!")
 			val todoDraft = call.receiveOrNull<TodoDraft>()
 			println(todoDraft.toString())
 			if (todoDraft != null) {

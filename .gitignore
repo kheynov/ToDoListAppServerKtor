@@ -37,3 +37,4 @@ gradle-app.setting
 .classpath
 
 docker-compose.yml
+/src/main/kotlin/ru/kheynov/authentication/JwtSecret.kt
