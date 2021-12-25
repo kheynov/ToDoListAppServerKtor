@@ -37,5 +37,7 @@ dependencies {
 	implementation("org.litote.kmongo:kmongo:4.4.0")
 	implementation("io.ktor:ktor-gson:$ktorVersion")
 
+	implementation("at.favre.lib:bcrypt:0.9.0")
+
 
 }
